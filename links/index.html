@@ -322,13 +322,13 @@ const EU = {
      cada foto vira um story; sem fotos, o story usa a cor e o logo da empresa. */
   trajetoria: [
     { empresa: "Smart Food Soluções", curto: "Smart Food", logo: "../logos/smartfood.png", cor: "#f5b400", periodo: "2017 – 2019", cargo: "Analista de Marketing Digital",
-      titulo: "Onde tudo começou", texto: "No negócio da família, aprendi a divulgar produto, entender o cliente e transformar marketing em venda.", destaque: "3 anos", destaqueRotulo: "no marketing da fábrica", fotos: [] },
+      titulo: "Onde tudo começou", texto: "No negócio da família, aprendi a divulgar produto, entender o cliente e transformar marketing em venda.", destaque: "3 anos", destaqueRotulo: "no marketing da fábrica", fotos: [{ src: "../fotos/trajetoria-smartfood.jpg", pos: "72% 30%" }] },
     { empresa: "Smart Salgateria", curto: "Salgateria", logo: "../logos/smartsalgateria.png", cor: "#e3262b", periodo: "2020 – 2024", cargo: "Administrador",
-      titulo: "Cresci no balcão", texto: "Cuidei da operação da loja: equipe, caixa, estoque e o delivery no iFood. Aqui aprendi que todo problema de negócio tem um custo.", destaque: "4 anos", destaqueRotulo: "à frente da loja", fotos: [] },
+      titulo: "Cresci no balcão", texto: "Cuidei da operação da loja: equipe, caixa, estoque e o delivery no iFood. Aqui aprendi que todo problema de negócio tem um custo.", destaque: "4 anos", destaqueRotulo: "à frente da loja", fotos: [{ src: "../fotos/trajetoria-smartsalgateria.jpg", pos: "45% 30%" }] },
     { empresa: "Trisul", curto: "Trisul", logo: "../logos/trisul.png", cor: "#e0a800", periodo: "2024 – 2025", cargo: "De Jovem Aprendiz a Assistente de TI",
-      titulo: "Entrei na tecnologia", texto: "Comecei como Jovem Aprendiz e fui promovido duas vezes em 15 meses, integrando sistemas e apoiando as áreas de negócio.", destaque: "12", destaqueRotulo: "sistemas integrados por API", fotos: [] },
+      titulo: "Entrei na tecnologia", texto: "Comecei como Jovem Aprendiz e fui promovido duas vezes em 15 meses, integrando sistemas e apoiando as áreas de negócio.", destaque: "12", destaqueRotulo: "sistemas integrados por API", fotos: [{ src: "../fotos/trajetoria-trisul.jpg", pos: "47% 40%" }] },
     { empresa: "Senior Sistemas", curto: "Senior", logo: "../logos/senior.png", cor: "#00b388", periodo: "2025 – 2026", cargo: "Analista de Implantação (ERP/CRM)",
-      titulo: "Aprendi como os sistemas funcionam por dentro", texto: "Conduzi implantações de ERP/CRM do kick-off ao go-live e automatizei contratos, cortando cerca de 70% do trabalho manual.", destaque: "18", destaqueRotulo: "projetos simultâneos", fotos: [] },
+      titulo: "Aprendi como os sistemas funcionam por dentro", texto: "Conduzi implantações de ERP/CRM do kick-off ao go-live e automatizei contratos, cortando cerca de 70% do trabalho manual.", destaque: "18", destaqueRotulo: "projetos simultâneos", fotos: [{ src: "../fotos/trajetoria-senior-palco.jpg", pos: "50% 40%" }, { src: "../fotos/trajetoria-senior-evento.jpg", pos: "50% 35%" }] },
     { empresa: "General IT · parceira Cisco", curto: "General IT", logo: "../logos/generalit.png", cor: "#049fd9", periodo: "2026 – hoje", cargo: "Account Manager",
       titulo: "Hoje: tecnologia e vendas", texto: "Ajudo empresas a decidir sobre nuvem, redes, cibersegurança e proteção de dados, começando pelo problema do cliente, não pelo produto.", destaque: "172", destaqueRotulo: "contas na carteira", fotos: [] }
   ],
@@ -441,7 +441,7 @@ document.getElementById("app").innerHTML = `
   const render = () => {
     const t = T[s], list = segs(t), foto = list[k];
     frame.style.setProperty("--sv-bg", `radial-gradient(120% 80% at 50% 25%, ${t.cor}, #0b0b0d 75%)`);
-    media.innerHTML = foto ? `<img src="${esc(foto)}" alt="">` : `<span class="sv-logo"><img src="${t.logo}" alt=""></span>`;
+    media.innerHTML = foto ? `<img src="${esc(foto.src || foto)}" alt="" style="object-position:${esc(foto.pos || "50% 50%")}">` : `<span class="sv-logo"><img src="${t.logo}" alt=""></span>`;
     bars.innerHTML = list.map((_, i) => `<i class="${i < k ? "done" : i === k ? "cur" : ""}"><b></b></i>`).join("");
     av.innerHTML = `<img src="${t.logo}" alt="">`; nm.textContent = t.empresa; wh.textContent = t.periodo;
     body.innerHTML = `<span class="cg">${fmt(t.cargo)}</span><h3>${fmt(t.titulo)}</h3><p>${fmt(t.texto)}</p>${t.destaque ? `<span class="st"><b>${fmt(t.destaque)}</b><span>${fmt(t.destaqueRotulo)}</span></span>` : ""}`;
