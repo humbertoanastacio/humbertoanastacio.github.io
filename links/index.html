@@ -97,6 +97,9 @@ section{margin-top:44px}
 .hl .yr{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
 .hl.now .yr{color:var(--blue);font-weight:600}
 .hl.now .ring{box-shadow:0 0 0 4px rgba(4,159,217,.18)}
+.fam-row{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:-6px}
+.fam-row span{position:relative;justify-self:stretch;text-align:center;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;color:#ffcc4d;padding-bottom:7px;margin:0 14%}
+.fam-row span::after{content:"";position:absolute;left:0;right:0;bottom:0;height:7px;border:1.5px solid rgba(255,204,77,.7);border-bottom:0;border-radius:6px 6px 0 0}
 .trj-hint{font-size:13px;line-height:1.4;color:var(--muted);text-align:center;margin:0 6px}
 .btn.trj{width:100%;background:var(--grad);color:#fff;font-size:17px}
 .trj-play{width:0;height:0;border-left:11px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent}
@@ -122,6 +125,7 @@ section{margin-top:44px}
 .sv-who small{font-size:12.5px;opacity:.8}
 .sv-x{margin-left:auto;width:40px;height:40px;border:0;border-radius:50%;background:rgba(0,0,0,.25);color:#fff;font-size:26px;line-height:1;cursor:pointer;position:relative;z-index:5}
 .sv-body{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:0 22px 34px;display:grid;gap:8px}
+.sv-body .cg.fam{background:#ffcc4d;color:#111;margin-bottom:-2px}
 .sv-body .cg{justify-self:start;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;background:rgba(255,255,255,.16);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:4px 10px;border-radius:980px}
 .sv-body h3{font-size:28px;font-weight:700;letter-spacing:-.04em;line-height:1.1}
 .sv-body p{font-size:16px;line-height:1.5;color:rgba(255,255,255,.88)}
@@ -241,6 +245,8 @@ a.nw2:hover{transform:translateY(-2px);text-decoration:none}
 .fun .fc span:not(.em):not(.fc-foto){color:var(--ink);opacity:.78}
 /* foto do interesse: ocupa o topo do cartão; o emoji fica sobre a borda da foto */
 .fc.has-foto{padding-top:0;overflow:hidden}
+.credit{margin-top:10px;font-size:11.5px;color:var(--muted);opacity:.8}
+.credit a{color:var(--muted);text-decoration:underline}
 .fc-foto{display:block;margin:0 -16px 0;height:130px;overflow:hidden;position:relative}
 .fc-foto img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s var(--out)}
 .fc.has-foto:hover .fc-foto img{transform:scale(1.05)}
@@ -349,9 +355,9 @@ const EU = {
   /* Minha trajetória em stories. fotos: lista de imagens (ex.: "../fotos/smartfood-1.jpg");
      cada foto vira um story; sem fotos, o story usa a cor e o logo da empresa. */
   trajetoria: [
-    { empresa: "Smart Food Soluções", curto: "Smart Food", logo: "../logos/smartfood.png", cor: "#f5b400", periodo: "2017 – 2019", cargo: "Analista de Marketing Digital",
+    { empresa: "Smart Food Soluções", curto: "Smart Food", familiar: true, logo: "../logos/smartfood.png", cor: "#f5b400", periodo: "2017 – 2019", cargo: "Analista de Marketing Digital",
       titulo: "Onde tudo começou", texto: "No negócio da família, aprendi a divulgar produto, entender o cliente e transformar marketing em venda.", destaque: "3 anos", destaqueRotulo: "no marketing da fábrica", fotos: [{ src: "../fotos/trajetoria-smartfood.jpg", pos: "72% 30%" }] },
-    { empresa: "Smart Salgateria", curto: "Salgateria", logo: "../logos/smartsalgateria.png", cor: "#e3262b", periodo: "2020 – 2024", cargo: "Administrador",
+    { empresa: "Smart Salgateria", curto: "Salgateria", familiar: true, logo: "../logos/smartsalgateria.png", cor: "#e3262b", periodo: "2020 – 2024", cargo: "Administrador",
       titulo: "Cresci no balcão", texto: "Cuidei da operação da loja: equipe, caixa, estoque e o delivery no iFood. Aqui aprendi que todo problema de negócio tem um custo.", destaque: "4 anos", destaqueRotulo: "à frente da loja", fotos: [{ src: "../fotos/trajetoria-smartsalgateria.jpg", pos: "45% 30%" }] },
     { empresa: "Trisul", curto: "Trisul", logo: "../logos/trisul.png", cor: "#e0a800", periodo: "2024 – 2025", cargo: "De Jovem Aprendiz a Assistente de TI",
       titulo: "Entrei na tecnologia", texto: "Comecei como Jovem Aprendiz e fui promovido duas vezes em 15 meses, integrando sistemas e apoiando as áreas de negócio.", destaque: "12", destaqueRotulo: "sistemas integrados por API", fotos: [{ src: "../fotos/trajetoria-trisul-cracha.jpg", pos: "50% 45%" }, { src: "../fotos/trajetoria-trisul-fachada.jpg", pos: "35% 45%" }, { src: "../fotos/trajetoria-trisul.jpg", pos: "47% 40%" }, { src: "../fotos/trajetoria-trisul-stand.jpg", pos: "50% 40%" }] },
@@ -370,10 +376,10 @@ const EU = {
   ],
 
   alem: [
-    { emoji: "🚴", titulo: "Ciclismo", texto: "Pedalar é meu jeito de limpar a cabeça e pensar melhor." },
-    { emoji: "⚽", titulo: "Futevôlei", texto: "Areia, amigos e bola no ar: meu jeito favorito de desligar." },
-    { emoji: "🏡", titulo: "Tempo com a família", texto: "Foi com eles que aprendi a trabalhar, e é com eles que gosto de estar." },
-    { emoji: "🙏", titulo: "Praticante da fé", texto: "A fé é a base de tudo o que eu faço." }
+    { emoji: "🚴", foto: "../fotos/interesse-ciclismo.jpg", pos: "50% 55%", titulo: "Ciclismo", texto: "Pedalar é meu jeito de limpar a cabeça e pensar melhor." },
+    { emoji: "⚽", foto: "../fotos/interesse-futevolei.jpg", pos: "50% 30%", titulo: "Futevôlei", texto: "Areia, amigos e bola no ar: meu jeito favorito de desligar." },
+    { emoji: "🏡", foto: "../fotos/interesse-familia.jpg", pos: "50% 60%", titulo: "Tempo com a família", texto: "Foi com eles que aprendi a trabalhar, e é com eles que gosto de estar." },
+    { emoji: "🙏", foto: "../fotos/interesse-fe.jpg", pos: "50% 35%", titulo: "Praticante da fé", texto: "A fé é a base de tudo o que eu faço." }
   ],
 
   portfolio: "https://humbertoanastacio.github.io/",
@@ -416,7 +422,7 @@ document.getElementById("app").innerHTML = `
 
   <section aria-labelledby="h-story">
     <p class="label rv" id="h-story">Minha trajetória</p>
-    <div class="trj-card rv"><div class="hl-row" role="list">${e.trajetoria.map((t, i) => `<button type="button" class="hl${i === e.trajetoria.length - 1 ? " now" : ""}" role="listitem" data-story="${i}" style="--c:${t.cor}" aria-label="Abrir o story de ${esc(t.empresa)}"><span class="ring"><img src="${t.logo}" alt=""></span><span class="nm">${fmt(t.curto)}</span><span class="yr">${esc(t.periodo.split("–")[0].trim())}</span></button>`).join("")}</div>
+    <div class="trj-card rv">${(() => { const n = e.trajetoria.filter(t => t.familiar).length; return n ? `<div class="fam-row" aria-hidden="true"><span style="grid-column:1 / ${n + 1}">Negócio familiar</span></div>` : ""; })()}<div class="hl-row" role="list">${e.trajetoria.map((t, i) => `<button type="button" class="hl${i === e.trajetoria.length - 1 ? " now" : ""}" role="listitem" data-story="${i}" style="--c:${t.cor}" aria-label="Abrir o story de ${esc(t.empresa)}${t.familiar ? ", negócio familiar" : ""}"><span class="ring"><img src="${t.logo}" alt=""></span><span class="nm">${fmt(t.curto)}</span><span class="yr">${esc(t.periodo.split("–")[0].trim())}</span></button>`).join("")}</div>
     <p class="trj-hint">${e.trajetoria.length} fases, de 2017 até hoje. Toque numa delas ou veja tudo em sequência.</p>
     <button type="button" class="btn trj" data-story="0"><span class="trj-play" aria-hidden="true"></span>Conheça minha trajetória</button></div>
   </section>
@@ -429,7 +435,7 @@ document.getElementById("app").innerHTML = `
         <div class="nh"><span class="lg">${a.logo ? `<img src="${a.logo}" alt="">` : ""}</span><span><b>${fmt(a.titulo)}</b>${filled(a.texto) ? `<small>${fmt(a.texto)}</small>` : ""}</span>${a.url ? '<span class="go" aria-hidden="true">›</span>' : ""}</div>
         ${a.fatos ? `<div class="nf">${a.fatos.map(f => `<span>${fmt(f)}</span>`).join("")}</div>` : ""}
         ${a.inicio ? `<div class="np"><div class="npb" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(pr * 100)}" aria-label="Andamento do curso"><i style="--p:${pr.toFixed(3)}"></i></div><span><b>${Math.round(pr * 100)}%</b> do curso · termina em ${fmt(a.termina)}</span></div>` : ""}
-        ${a.meta ? `<div class="lv" aria-label="Meta: nível ${esc(a.meta)}">${["A1", "A2", "B1", "B2", "C1", "C2"].map(n => `<span${n === a.meta ? ' class="goal"' : ""}>${n}${n === a.meta ? "<em>meta</em>" : ""}</span>`).join("")}</div>` : ""}
+        ${a.meta ? `<div class="lv" aria-label="Meta: nível ${esc(a.meta)}">${["A1", "A2", "B1", "B2", "C1", "C2"].map(n => `<span${n === a.meta ? ' class="goal"' : ""}>${n}</span>`).join("")}</div>` : ""}
         ${a.cta ? `<span class="ncta">${fmt(a.cta)} ›</span>` : ""}
       </${tag}>`; }).join("")}</div>
   </section>` : ""}
@@ -437,6 +443,7 @@ document.getElementById("app").innerHTML = `
   ${alem.length ? `<section aria-labelledby="h-fun">
     <p class="label rv" id="h-fun">Além do trabalho</p>
     <div class="fun">${alem.map((a, i) => `<div class="fc rv${a.foto ? " has-foto" : ""}" style="--d:${(i % 2) * 80}ms">${a.foto ? `<span class="fc-foto"><img src="${esc(a.foto)}" alt="" loading="lazy" style="object-position:${esc(a.pos || "50% 40%")}"></span>` : ""}<span class="em" aria-hidden="true">${fmt(a.emoji)}</span><b>${fmt(a.titulo)}</b>${filled(a.texto) ? `<span>${fmt(a.texto)}</span>` : ""}</div>`).join("")}</div>
+    <p class="credit">Fotos ilustrativas de Matt Baker, Ayrus Hill, Kevin Delvecchio e Akira Hojo (<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash</a>).</p>
   </section>` : ""}
 
   <section aria-labelledby="h-cta">
@@ -485,7 +492,7 @@ document.getElementById("app").innerHTML = `
     media.innerHTML = foto ? `<img src="${esc(foto.src || foto)}" alt="" style="object-position:${esc(foto.pos || "50% 50%")}">` : `<span class="sv-logo"><img src="${t.logo}" alt=""></span>`;
     bars.innerHTML = list.map((_, i) => `<i class="${i < k ? "done" : i === k ? "cur" : ""}"><b></b></i>`).join("");
     av.innerHTML = `<img src="${t.logo}" alt="">`; nm.textContent = t.empresa; wh.textContent = t.periodo;
-    body.innerHTML = `<span class="cg">${fmt(t.cargo)}</span><h3>${fmt(t.titulo)}</h3><p>${fmt(t.texto)}</p>${t.destaque ? `<span class="st"><b>${fmt(t.destaque)}</b><span>${fmt(t.destaqueRotulo)}</span></span>` : ""}`;
+    body.innerHTML = `${t.familiar ? '<span class="cg fam">Negócio familiar</span>' : ""}<span class="cg">${fmt(t.cargo)}</span><h3>${fmt(t.titulo)}</h3><p>${fmt(t.texto)}</p>${t.destaque ? `<span class="st"><b>${fmt(t.destaque)}</b><span>${fmt(t.destaqueRotulo)}</span></span>` : ""}`;
     frame.classList.remove("sv-anim"); void frame.offsetWidth; frame.classList.add("sv-anim");
     media.classList.toggle("seg-fade", seg && auto);
     const cur = bars.querySelector(".cur"); if (cur) cur.style.setProperty("--t", DUR + "ms");
