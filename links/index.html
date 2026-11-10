@@ -86,14 +86,19 @@ section{margin-top:44px}
 .fc .em{display:inline-block;justify-self:start}
 
 /* TRAJETÓRIA: destaques + visualizador de stories */
-.hl-row{display:flex;justify-content:space-between;gap:8px;overflow-x:auto;padding:4px 2px 10px;margin:0 -2px;scrollbar-width:none}
-.hl-row::-webkit-scrollbar{display:none}
-.hl{flex:none;display:grid;justify-items:center;gap:6px;width:64px;border:0;background:none;color:var(--ink);cursor:pointer;padding:0;font:inherit}
-.hl .ring{width:62px;height:62px;border-radius:50%;padding:3px;background:conic-gradient(from 210deg,var(--c),#bf5af2,var(--c));display:grid;place-items:center;transition:transform .35s var(--bounce)}
-.hl .ring img{width:100%;height:100%;border-radius:50%;object-fit:cover;background:#fff;border:3px solid var(--bg)}
-.hl:hover .ring,.hl:focus-visible .ring{transform:scale(1.07)}
-.hl .nm{font-size:11.5px;font-weight:600;color:var(--muted);max-width:64px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.btn.trj{margin-top:6px;width:100%;background:var(--grad);color:#fff;font-size:17px}
+.trj-card{background:var(--card);border-radius:24px;padding:20px 14px 16px;box-shadow:inset 0 0 0 1px var(--hair);display:grid;gap:14px}
+.hl-row{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.hl-row::before{content:"";position:absolute;left:10%;right:10%;top:29px;height:2px;border-radius:2px;background:linear-gradient(90deg,#f5b400,#e3262b,#e0a800,#00b388,#049fd9);opacity:.55}
+.hl{position:relative;display:grid;justify-items:center;gap:3px;min-width:0;border:0;background:none;color:var(--ink);cursor:pointer;padding:0;font:inherit}
+.hl .ring{width:60px;height:60px;border-radius:50%;padding:3px;background:conic-gradient(from 210deg,var(--c),#bf5af2,var(--c));display:grid;place-items:center;transition:transform .35s var(--bounce);margin-bottom:5px}
+.hl .ring img{width:100%;height:100%;border-radius:50%;object-fit:cover;background:#fff;border:3px solid var(--card)}
+.hl:hover .ring,.hl:focus-visible .ring{transform:scale(1.08)}
+.hl .nm{font-size:12px;font-weight:600;line-height:1.2;text-align:center;max-width:100%}
+.hl .yr{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.hl.now .yr{color:var(--blue);font-weight:600}
+.hl.now .ring{box-shadow:0 0 0 4px rgba(4,159,217,.18)}
+.trj-hint{font-size:13px;line-height:1.4;color:var(--muted);text-align:center;margin:0 6px}
+.btn.trj{width:100%;background:var(--grad);color:#fff;font-size:17px}
 .trj-play{width:0;height:0;border-left:11px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent}
 .sv{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.92);display:grid;place-items:center;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
 .sv[hidden]{display:none!important}
@@ -319,7 +324,7 @@ const EU = {
   nome: "Humberto",
   nomeCompleto: "Humberto Anastácio",
   /* Frases que se alternam no topo, depois de "Sou" */
-  sou: ["filho do comércio", "criador do Smart Balcão", "vendedor de tecnologia", "formado em Análise e Desenvolvimento de Sistemas", "aluno de MBA no Mackenzie", "ciclista nas horas vagas"],
+  sou: ["filho do comércio", "vendedor de tecnologia", "formado em Análise e Desenvolvimento de Sistemas", "aluno de MBA no Mackenzie", "ciclista nas horas vagas"],
   iniciais: "HA",
   foto: "../fotos/humberto.jpg",
   intro: "Cresci atrás do balcão da família e hoje uso tecnologia pra ajudar negócios a crescer. Fora isso, você me encontra pedalando, no futevôlei ou com a família.",
@@ -405,8 +410,9 @@ document.getElementById("app").innerHTML = `
 
   <section aria-labelledby="h-story">
     <p class="label rv" id="h-story">Minha trajetória</p>
-    <div class="hl-row rv" role="list">${e.trajetoria.map((t, i) => `<button type="button" class="hl" role="listitem" data-story="${i}" style="--c:${t.cor}" aria-label="Abrir o story de ${esc(t.empresa)}"><span class="ring"><img src="${t.logo}" alt=""></span><span class="nm">${fmt(t.curto)}</span></button>`).join("")}</div>
-    <button type="button" class="btn trj rv" data-story="0"><span class="trj-play" aria-hidden="true"></span>Conheça minha trajetória</button>
+    <div class="trj-card rv"><div class="hl-row" role="list">${e.trajetoria.map((t, i) => `<button type="button" class="hl${i === e.trajetoria.length - 1 ? " now" : ""}" role="listitem" data-story="${i}" style="--c:${t.cor}" aria-label="Abrir o story de ${esc(t.empresa)}"><span class="ring"><img src="${t.logo}" alt=""></span><span class="nm">${fmt(t.curto)}</span><span class="yr">${esc(t.periodo.split("–")[0].trim())}</span></button>`).join("")}</div>
+    <p class="trj-hint">${e.trajetoria.length} fases, de 2017 até hoje. Toque numa delas ou veja tudo em sequência.</p>
+    <button type="button" class="btn trj" data-story="0"><span class="trj-play" aria-hidden="true"></span>Conheça minha trajetória</button></div>
   </section>
 
   ${agora.length ? `<section aria-labelledby="h-now">
