@@ -85,6 +85,51 @@ section{margin-top:44px}
 .hi h1 .ch{display:inline-block}
 .fc .em{display:inline-block;justify-self:start}
 
+/* TRAJETÓRIA: destaques + visualizador de stories */
+.hl-row{display:flex;justify-content:space-between;gap:8px;overflow-x:auto;padding:4px 2px 10px;margin:0 -2px;scrollbar-width:none}
+.hl-row::-webkit-scrollbar{display:none}
+.hl{flex:none;display:grid;justify-items:center;gap:6px;width:64px;border:0;background:none;color:var(--ink);cursor:pointer;padding:0;font:inherit}
+.hl .ring{width:62px;height:62px;border-radius:50%;padding:3px;background:conic-gradient(from 210deg,var(--c),#bf5af2,var(--c));display:grid;place-items:center;transition:transform .35s var(--bounce)}
+.hl .ring img{width:100%;height:100%;border-radius:50%;object-fit:cover;background:#fff;border:3px solid var(--bg)}
+.hl:hover .ring,.hl:focus-visible .ring{transform:scale(1.07)}
+.hl .nm{font-size:11.5px;font-weight:600;color:var(--muted);max-width:64px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn.trj{margin-top:6px;width:100%;background:var(--grad);color:#fff;font-size:17px}
+.trj-play{width:0;height:0;border-left:11px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent}
+.sv{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.92);display:grid;place-items:center;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+.sv[hidden]{display:none!important}
+.sv-frame{position:relative;width:min(100vw,440px);height:min(100%,820px);height:min(100dvh,820px);border-radius:18px;overflow:hidden;background:#111;color:#fff;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.sv-media{position:absolute;inset:0;background:var(--sv-bg,#222)}
+.sv-media img{width:100%;height:100%;object-fit:cover;display:block}
+.sv-media .sv-logo{position:absolute;left:50%;top:34%;width:132px;height:132px;margin:-66px 0 0 -66px;border-radius:32px;overflow:hidden;background:#fff;box-shadow:0 24px 50px -18px rgba(0,0,0,.6)}
+.sv-media .sv-logo img{width:100%;height:100%;object-fit:cover}
+.sv-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,transparent 22%,transparent 40%,rgba(0,0,0,.85) 100%)}
+.sv-bars{position:absolute;top:10px;left:10px;right:10px;z-index:3;display:flex;gap:4px}
+.sv-bars i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.35);overflow:hidden}
+.sv-bars b{display:block;height:100%;background:#fff;transform-origin:0 50%;transform:scaleX(0)}
+.sv-bars i.done b{transform:none}
+.sv-bars i.cur b{animation:fillbar var(--t,6s) linear forwards}
+.sv-frame.paused .sv-bars i.cur b{animation-play-state:paused}
+.sv-head{position:absolute;top:22px;left:12px;right:8px;z-index:4;display:flex;align-items:center;gap:10px}
+.sv-av{width:36px;height:36px;border-radius:50%;overflow:hidden;background:#fff;flex:none;border:2px solid rgba(255,255,255,.8)}
+.sv-av img{width:100%;height:100%;object-fit:cover}
+.sv-who{display:grid;line-height:1.2;min-width:0}
+.sv-who b{font-size:14.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sv-who small{font-size:12.5px;opacity:.8}
+.sv-x{margin-left:auto;width:40px;height:40px;border:0;border-radius:50%;background:rgba(0,0,0,.25);color:#fff;font-size:26px;line-height:1;cursor:pointer;position:relative;z-index:5}
+.sv-body{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:0 22px 34px;display:grid;gap:8px}
+.sv-body .cg{justify-self:start;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;background:rgba(255,255,255,.16);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:4px 10px;border-radius:980px}
+.sv-body h3{font-size:28px;font-weight:700;letter-spacing:-.04em;line-height:1.1}
+.sv-body p{font-size:16px;line-height:1.5;color:rgba(255,255,255,.88)}
+.sv-body .st{justify-self:start;display:flex;align-items:baseline;gap:8px;margin-top:6px;background:#fff;color:#111;border-radius:14px;padding:8px 14px;transform:rotate(-2deg);box-shadow:0 12px 26px -12px rgba(0,0,0,.6)}
+.sv-body .st b{font-size:24px;font-weight:800;letter-spacing:-.04em}
+.sv-body .st span{font-size:13px;font-weight:600}
+.sv-nav{position:absolute;inset:70px 0 0 0;z-index:2;display:grid;grid-template-columns:1fr 2fr}
+.sv-nav button{border:0;background:transparent;cursor:pointer;padding:0}
+.sv-anim .sv-body > *{animation:up .5s var(--out) both}
+.sv-anim .sv-body > :nth-child(2){animation-delay:.06s}.sv-anim .sv-body > :nth-child(3){animation-delay:.12s}.sv-anim .sv-body > :nth-child(4){animation-delay:.2s}
+.sv-anim .sv-logo{animation:pop .6s var(--bounce) both}
+@media (max-width:520px){.sv-frame{width:100vw;height:100%;border-radius:0}}
+
 /* HISTÓRIA EM STORIES */
 .stories{position:relative;border-radius:24px;overflow:hidden;background:var(--card);box-shadow:inset 0 0 0 1px var(--hair);user-select:none;-webkit-user-select:none}
 .sbars{position:absolute;top:12px;left:14px;right:14px;z-index:3;display:flex;gap:4px}
@@ -234,6 +279,15 @@ footer{margin-top:36px;text-align:center;font-size:12.5px;color:var(--muted)}
 </head>
 <body>
 <div class="bg" aria-hidden="true"></div>
+<div class="sv" id="sv" hidden role="dialog" aria-modal="true" aria-label="Minha trajetória">
+  <div class="sv-frame" id="svFrame">
+    <div class="sv-media" id="svMedia"></div>
+    <div class="sv-bars" id="svBars" aria-hidden="true"></div>
+    <div class="sv-head"><span class="sv-av" id="svAv"></span><span class="sv-who"><b id="svName"></b><small id="svWhen"></small></span><button type="button" class="sv-x" id="svClose" aria-label="Fechar">×</button></div>
+    <div class="sv-body" id="svBody" aria-live="polite"></div>
+    <div class="sv-nav"><button type="button" id="svPrev" aria-label="Story anterior"></button><button type="button" id="svNext" aria-label="Próximo story"></button></div>
+  </div>
+</div>
 <main id="app"></main>
 
 <script>
@@ -264,11 +318,19 @@ const EU = {
     url: "https://smartbalcao.com.br/"
   },
 
-  historia: [
-    { emoji: "🏪", quando: "2017 – 2024", titulo: "Cresci no balcão", texto: "Trabalhei nos negócios da família: do marketing de uma fábrica de máquinas de salgados à gerência de uma salgateria." },
-    { emoji: "💻", quando: "2024", titulo: "Entrei na tecnologia", texto: "Comecei como Jovem Aprendiz de TI na Trisul e, em pouco mais de um ano, já era Assistente de TI." },
-    { emoji: "⚙️", quando: "2025", titulo: "Aprendi como os sistemas funcionam por dentro", texto: "Na Senior, implantei sistemas de gestão para empresas do setor imobiliário." },
-    { emoji: "🚀", quando: "2026", titulo: "Escolhi vendas e criei meu projeto", texto: "Juntei a bagagem técnica com o lado comercial, comecei um MBA em Gestão de Negócios com IA no Mackenzie e tirei do papel o Smart Balcão." }
+  /* Minha trajetória em stories. fotos: lista de imagens (ex.: "../fotos/smartfood-1.jpg");
+     cada foto vira um story; sem fotos, o story usa a cor e o logo da empresa. */
+  trajetoria: [
+    { empresa: "Smart Food Soluções", curto: "Smart Food", logo: "../logos/smartfood.png", cor: "#f5b400", periodo: "2017 – 2019", cargo: "Analista de Marketing Digital",
+      titulo: "Onde tudo começou", texto: "No negócio da família, aprendi a divulgar produto, entender o cliente e transformar marketing em venda.", destaque: "3 anos", destaqueRotulo: "no marketing da fábrica", fotos: [{ src: "../fotos/trajetoria-smartfood.jpg", pos: "72% 30%" }] },
+    { empresa: "Smart Salgateria", curto: "Salgateria", logo: "../logos/smartsalgateria.png", cor: "#e3262b", periodo: "2020 – 2024", cargo: "Administrador",
+      titulo: "Cresci no balcão", texto: "Cuidei da operação da loja: equipe, caixa, estoque e o delivery no iFood. Aqui aprendi que todo problema de negócio tem um custo.", destaque: "4 anos", destaqueRotulo: "à frente da loja", fotos: [{ src: "../fotos/trajetoria-smartsalgateria.jpg", pos: "45% 30%" }] },
+    { empresa: "Trisul", curto: "Trisul", logo: "../logos/trisul.png", cor: "#e0a800", periodo: "2024 – 2025", cargo: "De Jovem Aprendiz a Assistente de TI",
+      titulo: "Entrei na tecnologia", texto: "Comecei como Jovem Aprendiz e fui promovido duas vezes em 15 meses, integrando sistemas e apoiando as áreas de negócio.", destaque: "12", destaqueRotulo: "sistemas integrados por API", fotos: [{ src: "../fotos/trajetoria-trisul.jpg", pos: "47% 40%" }] },
+    { empresa: "Senior Sistemas", curto: "Senior", logo: "../logos/senior.png", cor: "#00b388", periodo: "2025 – 2026", cargo: "Analista de Implantação (ERP/CRM)",
+      titulo: "Aprendi como os sistemas funcionam por dentro", texto: "Conduzi implantações de ERP/CRM do kick-off ao go-live e automatizei contratos, cortando cerca de 70% do trabalho manual.", destaque: "18", destaqueRotulo: "projetos simultâneos", fotos: [{ src: "../fotos/trajetoria-senior-palco.jpg", pos: "50% 40%" }, { src: "../fotos/trajetoria-senior-evento.jpg", pos: "50% 35%" }] },
+    { empresa: "General IT · parceira Cisco", curto: "General IT", logo: "../logos/generalit.png", cor: "#049fd9", periodo: "2026 – hoje", cargo: "Account Manager",
+      titulo: "Hoje: tecnologia e vendas", texto: "Ajudo empresas a decidir sobre nuvem, redes, cibersegurança e proteção de dados, começando pelo problema do cliente, não pelo produto.", destaque: "172", destaqueRotulo: "contas na carteira", fotos: [] }
   ],
 
   /* inicio/fim: a barra mostra quanto do curso já passou. meta: nível de inglês em destaque. */
@@ -325,13 +387,9 @@ document.getElementById("app").innerHTML = `
   </section>
 
   <section aria-labelledby="h-story">
-    <p class="label rv" id="h-story">Minha história em ${e.historia.length} passos</p>
-    <div class="stories rv" id="stories" role="region" aria-roledescription="carrossel" aria-label="Minha história">
-      <div class="sbars" aria-hidden="true">${e.historia.map(() => "<i><b></b></i>").join("")}</div>
-      <div class="strack">${e.historia.map((h, i) => `<article class="slide${i === 0 ? " on" : ""}" aria-label="${i + 1} de ${e.historia.length}"${i === 0 ? "" : ' aria-hidden="true"'}><span class="em" aria-hidden="true">${fmt(h.emoji)}</span><time>${fmt(h.quando)}</time><h3>${fmt(h.titulo)}</h3><p>${fmt(h.texto)}</p></article>`).join("")}</div>
-      <div class="snav"><button type="button" data-go="-1" aria-label="Passo anterior"></button><button type="button" data-go="1" aria-label="Próximo passo"></button></div>
-    </div>
-    <p class="shint rv">Toque na direita para avançar e na esquerda para voltar.</p>
+    <p class="label rv" id="h-story">Minha trajetória</p>
+    <div class="hl-row rv" role="list">${e.trajetoria.map((t, i) => `<button type="button" class="hl" role="listitem" data-story="${i}" style="--c:${t.cor}" aria-label="Abrir o story de ${esc(t.empresa)}"><span class="ring"><img src="${t.logo}" alt=""></span><span class="nm">${fmt(t.curto)}</span></button>`).join("")}</div>
+    <button type="button" class="btn trj rv" data-story="0"><span class="trj-play" aria-hidden="true"></span>Conheça minha trajetória</button>
   </section>
 
   ${agora.length ? `<section aria-labelledby="h-now">
@@ -371,6 +429,55 @@ document.getElementById("app").innerHTML = `
     const r = el.getBoundingClientRect();
     el.style.setProperty("--mx", (ev.clientX - r.left) + "px"); el.style.setProperty("--my", (ev.clientY - r.top) + "px");
   }, { passive: true });
+})();
+
+(() => {
+  const sv = document.getElementById("sv"); if (!sv) return;
+  const frame = document.getElementById("svFrame"), media = document.getElementById("svMedia"), bars = document.getElementById("svBars");
+  const av = document.getElementById("svAv"), nm = document.getElementById("svName"), wh = document.getElementById("svWhen"), body = document.getElementById("svBody");
+  const T = e.trajetoria, auto = !matchMedia("(prefers-reduced-motion: reduce)").matches, DUR = 6500;
+  const segs = t => (t.fotos && t.fotos.length) ? t.fotos : [null];
+  let s = 0, k = 0, timer = 0, startAt = 0, left = DUR, last = null, pushed = false;
+  const render = () => {
+    const t = T[s], list = segs(t), foto = list[k];
+    frame.style.setProperty("--sv-bg", `radial-gradient(120% 80% at 50% 25%, ${t.cor}, #0b0b0d 75%)`);
+    media.innerHTML = foto ? `<img src="${esc(foto.src || foto)}" alt="" style="object-position:${esc(foto.pos || "50% 50%")}">` : `<span class="sv-logo"><img src="${t.logo}" alt=""></span>`;
+    bars.innerHTML = list.map((_, i) => `<i class="${i < k ? "done" : i === k ? "cur" : ""}"><b></b></i>`).join("");
+    av.innerHTML = `<img src="${t.logo}" alt="">`; nm.textContent = t.empresa; wh.textContent = t.periodo;
+    body.innerHTML = `<span class="cg">${fmt(t.cargo)}</span><h3>${fmt(t.titulo)}</h3><p>${fmt(t.texto)}</p>${t.destaque ? `<span class="st"><b>${fmt(t.destaque)}</b><span>${fmt(t.destaqueRotulo)}</span></span>` : ""}`;
+    frame.classList.remove("sv-anim"); void frame.offsetWidth; frame.classList.add("sv-anim");
+    const cur = bars.querySelector(".cur"); if (cur) cur.style.setProperty("--t", DUR + "ms");
+    if (!auto && cur) cur.className = "done";
+    schedule(DUR);
+  };
+  const schedule = ms => { clearTimeout(timer); if (!auto) return; left = ms; startAt = performance.now(); timer = setTimeout(next, ms); };
+  const next = () => { if (k < segs(T[s]).length - 1) k++; else if (s < T.length - 1) { s++; k = 0; } else return close(); render(); };
+  const prev = () => { if (k > 0) k--; else if (s > 0) { s--; k = segs(T[s]).length - 1; } else k = 0; render(); };
+  const open = i => {
+    last = document.activeElement; s = i; k = 0; sv.hidden = false; document.body.style.overflow = "hidden";
+    if (!pushed) { try { history.pushState({ sv: 1 }, "", "#trajetoria"); pushed = true; } catch {} }
+    render(); document.getElementById("svClose").focus();
+  };
+  const hide = () => { clearTimeout(timer); sv.hidden = true; document.body.style.overflow = ""; if (last) last.focus(); };
+  const close = () => { if (pushed) { pushed = false; try { history.back(); return; } catch {} } hide(); };
+  addEventListener("popstate", () => { if (!sv.hidden) { pushed = false; hide(); } });
+  document.querySelectorAll("[data-story]").forEach(b => b.addEventListener("click", () => open(+b.dataset.story)));
+  document.getElementById("svNext").addEventListener("click", next);
+  document.getElementById("svPrev").addEventListener("click", prev);
+  document.getElementById("svClose").addEventListener("click", close);
+  sv.addEventListener("click", ev => { if (ev.target === sv) close(); });
+  document.addEventListener("keydown", ev => { if (sv.hidden) return; if (ev.key === "Escape") close(); if (ev.key === "ArrowRight") next(); if (ev.key === "ArrowLeft") prev(); });
+  const pause = on => {
+    if (!auto) return;
+    frame.classList.toggle("paused", on);
+    if (on) { clearTimeout(timer); left = Math.max(300, left - (performance.now() - startAt)); } else schedule(left);
+  };
+  frame.addEventListener("pointerdown", ev => { if (!ev.target.closest(".sv-x")) pause(true); });
+  ["pointerup", "pointercancel", "pointerleave"].forEach(n => frame.addEventListener(n, () => frame.classList.contains("paused") && pause(false)));
+  let y0 = null;
+  frame.addEventListener("touchstart", ev => { y0 = ev.touches[0].clientY; }, { passive: true });
+  frame.addEventListener("touchend", ev => { if (y0 !== null && ev.changedTouches[0].clientY - y0 > 90) close(); y0 = null; }, { passive: true });
+  if (location.hash === "#trajetoria") { history.replaceState(null, "", location.pathname + location.search); open(0); }
 })();
 
 (() => {
