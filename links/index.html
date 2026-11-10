@@ -449,9 +449,9 @@ document.getElementById("app").innerHTML = `
   <section aria-labelledby="h-cta">
     <p class="label rv" id="h-cta">Quer saber mais?</p>
     <div class="cta">
-      <a class="btn sb rv" href="${esc(e.projeto.url)}" target="_blank" rel="noopener">Smart Balcão, meu projeto</a>
+      <a class="btn li rv" href="${esc(e.linkedin)}" target="_blank" rel="noopener">${LI}Me chama no LinkedIn</a>
       <a class="btn main rv" style="--d:40ms" href="${esc(e.portfolio)}" target="_blank" rel="noopener">${BAG}Meu portfólio profissional</a>
-      <a class="btn li rv" style="--d:70ms" href="${esc(e.linkedin)}" target="_blank" rel="noopener">${LI}Me chama no LinkedIn</a>
+      <a class="btn sb rv" style="--d:70ms" href="${esc(e.projeto.url)}" target="_blank" rel="noopener">Smart Balcão, meu projeto</a>
       ${temWa ? `<a class="btn wa rv" style="--d:140ms" href="${/^https?:/.test(strip(e.whatsapp)) ? esc(strip(e.whatsapp)) : "#"}" target="_blank" rel="noopener">${WA}${DRAFT && !/^https?:/.test(strip(e.whatsapp)) ? fmt(e.whatsapp) : "Me chama no WhatsApp"}</a>` : ""}
     </div>
   </section>
