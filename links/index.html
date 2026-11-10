@@ -129,6 +129,23 @@ section{margin-top:44px}
 .sv-anim .sv-body > :nth-child(2){animation-delay:.06s}.sv-anim .sv-body > :nth-child(3){animation-delay:.12s}.sv-anim .sv-body > :nth-child(4){animation-delay:.2s}
 .sv-anim .sv-logo{animation:pop .6s var(--bounce) both}
 @media (max-width:520px){.sv-frame{width:100vw;height:100%;border-radius:0}}
+/* transição entre stories: giro de cubo, como no Instagram */
+.sv{perspective:1400px}
+.sv-frame{grid-area:1/1;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform-style:preserve-3d}
+.sv-ghost{pointer-events:none;z-index:1}
+.sv-frame:not(.sv-ghost){z-index:2}
+@keyframes cubeOutNext{from{transform:none;filter:brightness(1)}to{transform:translateX(-50%) rotateY(-90deg) translateX(-50%);filter:brightness(.45)}}
+@keyframes cubeInNext{from{transform:translateX(50%) rotateY(90deg) translateX(50%);filter:brightness(.45)}to{transform:none;filter:brightness(1)}}
+@keyframes cubeOutPrev{from{transform:none;filter:brightness(1)}to{transform:translateX(50%) rotateY(90deg) translateX(50%);filter:brightness(.45)}}
+@keyframes cubeInPrev{from{transform:translateX(-50%) rotateY(-90deg) translateX(-50%);filter:brightness(.45)}to{transform:none;filter:brightness(1)}}
+@keyframes svOpen{from{opacity:0;transform:scale(.88) translateY(24px)}to{opacity:1;transform:none}}
+@keyframes svFade{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:none}}
+.sv-frame.cube-out-next{animation:cubeOutNext .6s cubic-bezier(.4,0,.2,1) forwards}
+.sv-frame.cube-in-next{animation:cubeInNext .6s cubic-bezier(.4,0,.2,1) both}
+.sv-frame.cube-out-prev{animation:cubeOutPrev .6s cubic-bezier(.4,0,.2,1) forwards}
+.sv-frame.cube-in-prev{animation:cubeInPrev .6s cubic-bezier(.4,0,.2,1) both}
+.sv-frame.sv-opening{animation:svOpen .45s var(--out) both}
+.sv-media.seg-fade img{animation:svFade .5s var(--out) both}
 
 /* HISTÓRIA EM STORIES */
 .stories{position:relative;border-radius:24px;overflow:hidden;background:var(--card);box-shadow:inset 0 0 0 1px var(--hair);user-select:none;-webkit-user-select:none}
@@ -438,7 +455,19 @@ document.getElementById("app").innerHTML = `
   const T = e.trajetoria, auto = !matchMedia("(prefers-reduced-motion: reduce)").matches, DUR = 6500;
   const segs = t => (t.fotos && t.fotos.length) ? t.fotos : [null];
   let s = 0, k = 0, timer = 0, startAt = 0, left = DUR, last = null, pushed = false;
-  const render = () => {
+  const render = (dir = 0, seg = false) => {
+    if (dir && auto) {
+      sv.querySelectorAll(".sv-ghost").forEach(g => g.remove());
+      const ghost = frame.cloneNode(true);
+      ghost.removeAttribute("id"); ghost.setAttribute("aria-hidden", "true");
+      ghost.querySelectorAll("[id]").forEach(n => n.removeAttribute("id"));
+      ghost.classList.remove("cube-in-next", "cube-in-prev", "sv-opening", "paused");
+      ghost.classList.add("sv-ghost", dir > 0 ? "cube-out-next" : "cube-out-prev");
+      sv.appendChild(ghost);
+      ghost.addEventListener("animationend", () => ghost.remove(), { once: true });
+      frame.classList.remove("cube-in-next", "cube-in-prev", "sv-opening"); void frame.offsetWidth;
+      frame.classList.add(dir > 0 ? "cube-in-next" : "cube-in-prev");
+    }
     const t = T[s], list = segs(t), foto = list[k];
     frame.style.setProperty("--sv-bg", `radial-gradient(120% 80% at 50% 25%, ${t.cor}, #0b0b0d 75%)`);
     media.innerHTML = foto ? `<img src="${esc(foto.src || foto)}" alt="" style="object-position:${esc(foto.pos || "50% 50%")}">` : `<span class="sv-logo"><img src="${t.logo}" alt=""></span>`;
@@ -446,19 +475,21 @@ document.getElementById("app").innerHTML = `
     av.innerHTML = `<img src="${t.logo}" alt="">`; nm.textContent = t.empresa; wh.textContent = t.periodo;
     body.innerHTML = `<span class="cg">${fmt(t.cargo)}</span><h3>${fmt(t.titulo)}</h3><p>${fmt(t.texto)}</p>${t.destaque ? `<span class="st"><b>${fmt(t.destaque)}</b><span>${fmt(t.destaqueRotulo)}</span></span>` : ""}`;
     frame.classList.remove("sv-anim"); void frame.offsetWidth; frame.classList.add("sv-anim");
+    media.classList.toggle("seg-fade", seg && auto);
     const cur = bars.querySelector(".cur"); if (cur) cur.style.setProperty("--t", DUR + "ms");
     if (!auto && cur) cur.className = "done";
     schedule(DUR);
   };
   const schedule = ms => { clearTimeout(timer); if (!auto) return; left = ms; startAt = performance.now(); timer = setTimeout(next, ms); };
-  const next = () => { if (k < segs(T[s]).length - 1) k++; else if (s < T.length - 1) { s++; k = 0; } else return close(); render(); };
-  const prev = () => { if (k > 0) k--; else if (s > 0) { s--; k = segs(T[s]).length - 1; } else k = 0; render(); };
+  const next = () => { const b = s; if (k < segs(T[s]).length - 1) k++; else if (s < T.length - 1) { s++; k = 0; } else return close(); render(s !== b ? 1 : 0, s === b); };
+  const prev = () => { const b = s; if (k > 0) k--; else if (s > 0) { s--; k = segs(T[s]).length - 1; } else k = 0; render(s !== b ? -1 : 0, s === b); };
   const open = i => {
     last = document.activeElement; s = i; k = 0; sv.hidden = false; document.body.style.overflow = "hidden";
     if (!pushed) { try { history.pushState({ sv: 1 }, "", "#trajetoria"); pushed = true; } catch {} }
+    frame.classList.remove("cube-in-next", "cube-in-prev"); if (auto) { frame.classList.remove("sv-opening"); void frame.offsetWidth; frame.classList.add("sv-opening"); }
     render(); document.getElementById("svClose").focus();
   };
-  const hide = () => { clearTimeout(timer); sv.hidden = true; document.body.style.overflow = ""; if (last) last.focus(); };
+  const hide = () => { clearTimeout(timer); sv.querySelectorAll(".sv-ghost").forEach(g => g.remove()); sv.hidden = true; document.body.style.overflow = ""; if (last) last.focus(); };
   const close = () => { if (pushed) { pushed = false; try { history.back(); return; } catch {} } hide(); };
   addEventListener("popstate", () => { if (!sv.hidden) { pushed = false; hide(); } });
   document.querySelectorAll("[data-story]").forEach(b => b.addEventListener("click", () => open(+b.dataset.story)));
