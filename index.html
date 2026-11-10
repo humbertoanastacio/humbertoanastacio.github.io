@@ -405,7 +405,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 2
 <body>
 <nav aria-label="Seções" id="nav"><div class="wrap"><a class="brand" href="#top" id="brand"></a>
   <button class="menu" id="menuBtn" aria-label="Abrir menu" aria-expanded="false" aria-controls="navList"><svg class="bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg><svg class="x-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
-  <ul id="navList"><li><a href="#sobre">Sobre mim</a></li><li><a href="#cases">Cases</a></li><li><a href="#linha-do-tempo">Linha do tempo</a></li><li><a href="#competencias">Competências</a></li><li><a href="mackenzie/">MBA</a></li></ul>
+  <ul id="navList"><li><a href="#sobre">Sobre mim</a></li><li><a href="#cases">Cases</a></li><li><a href="#competencias">Competências</a></li><li><a href="mackenzie/">MBA</a></li></ul>
 </div><span class="progress" aria-hidden="true"></span></nav>
 <header class="hero" id="top"></header>
 <main id="app"></main>
@@ -583,6 +583,8 @@ const DATA = {
     }
   ],
 
+  /* Linha do tempo: true mostra a seção e o item no menu */
+  mostrarLinhaDoTempo: false,
   registro: [
     { semana: "06/10/2026", itens: ["Início na General IT como consultor comercial (PJ)", "Onboarding no portfólio de infraestrutura e no CRM"] },
     { semana: "Out/2026", itens: ["Início da reativação de carteira pelas contas P1", "Definição do ICP e criação da prospecção diária com IA", "Assumi a conta do setor de saúde"] },
@@ -665,7 +667,7 @@ document.getElementById("top").innerHTML = `
     </div>
   </div>`;
 
-const registro = d.registro.filter(r => filled(r.semana))
+const registro = (d.mostrarLinhaDoTempo ? d.registro : []).filter(r => filled(r.semana))
   .map(r => ({ ...r, itens: r.itens.filter(filled) })).filter(r => r.itens.length).reverse();
 const MOSTRAR = 3;
 const storyHTML = c => `<ol class="story">
