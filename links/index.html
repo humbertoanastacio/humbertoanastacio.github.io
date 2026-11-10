@@ -356,6 +356,7 @@ body{background:var(--bg);color:var(--ink);letter-spacing:-.022em}
 .btn.trj{border-radius:980px}
 footer a{color:var(--link)}
 .credit,.credit a{color:var(--muted)}
+[hidden]{display:none!important}
 </style>
 </head>
 <body>
@@ -401,6 +402,8 @@ const EU = {
 
   /* Minha trajetória em stories. fotos: lista de imagens (ex.: "../fotos/smartfood-1.jpg");
      cada foto vira um story; sem fotos, o story usa a cor e o logo da empresa. */
+  /* Seção "Minha trajetória" (destaques + stories). Está guardada: mude para true para mostrar de novo. */
+  mostrarTrajetoria: false,
   trajetoria: [
     { empresa: "Smart Food Soluções", curto: "Smart Food", familiar: true, logo: "../logos/smartfood.png", cor: "#f5b400", periodo: "2017 – 2019", cargo: "Analista de Marketing Digital",
       titulo: "Onde tudo começou", texto: "No negócio da família, aprendi a divulgar produto, entender o cliente e transformar marketing em venda.", destaque: "3 anos", destaqueRotulo: "no marketing da fábrica", fotos: [{ src: "../fotos/trajetoria-smartfood.jpg", pos: "72% 30%" }] },
@@ -467,7 +470,7 @@ document.getElementById("app").innerHTML = `
     <div class="proj"><h3>${fmt(e.projeto.nome)}</h3><p>${fmt(e.projeto.texto)}</p>${filled(e.projeto.porque) ? `<p class="why">${fmt(e.projeto.porque)}</p>` : ""}<a class="btn sb" href="${esc(e.projeto.url)}" target="_blank" rel="noopener">Conhecer o ${esc(e.projeto.nome)} ›</a></div>
   </section>
 
-  <section aria-labelledby="h-story">
+  <section aria-labelledby="h-story"${e.mostrarTrajetoria ? "" : " hidden"}>
     <p class="label rv" id="h-story">Minha trajetória</p>
     <div class="trj-card rv">${(() => { const n = e.trajetoria.filter(t => t.familiar).length; return n ? `<div class="fam-row" aria-hidden="true"><span style="grid-column:1 / ${n + 1}">Negócio familiar</span></div>` : ""; })()}<div class="hl-row" role="list">${e.trajetoria.map((t, i) => `<button type="button" class="hl${i === e.trajetoria.length - 1 ? " now" : ""}" role="listitem" data-story="${i}" style="--c:${t.cor}" aria-label="Abrir o story de ${esc(t.empresa)}${t.familiar ? ", negócio familiar" : ""}"><span class="ring"><img src="${t.logo}" alt=""></span><span class="nm">${fmt(t.curto)}</span><span class="yr">${esc(t.periodo.split("–")[0].trim())}</span></button>`).join("")}</div>
     <p class="trj-hint">${e.trajetoria.length} fases, de 2017 até hoje. Toque numa delas ou veja tudo em sequência.</p>
@@ -515,7 +518,7 @@ document.getElementById("app").innerHTML = `
 })();
 
 (() => {
-  const sv = document.getElementById("sv"); if (!sv) return;
+  const sv = document.getElementById("sv"); if (!sv || !e.mostrarTrajetoria) return;
   const frame = document.getElementById("svFrame"), media = document.getElementById("svMedia"), bars = document.getElementById("svBars");
   const av = document.getElementById("svAv"), nm = document.getElementById("svName"), wh = document.getElementById("svWhen"), body = document.getElementById("svBody");
   const T = e.trajetoria, auto = !matchMedia("(prefers-reduced-motion: reduce)").matches, DUR = 6500;
